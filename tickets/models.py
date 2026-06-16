@@ -12,9 +12,17 @@ class Ticket(models.Model):
         on_delete=models.SET_NULL,
         related_name='tickets'
         )
+    category = models.ForeignKey(
+        'Category',
+        on_delete=models.PROTECT,
+        null=True,
+        related_name='tickets',
+        blank=True,
+    )
     
     def __str__(self):
         return f"ticket #{self.id} - {self.title}"
+
 
 class Comment(models.Model):
     text = models.TextField()
@@ -35,3 +43,10 @@ class Comment(models.Model):
     
     def __str__(self):
         return f'comment #{self.id} to {self.ticket}'
+    
+
+class Category(models.Model):
+    title = models.CharField(max_length=64, unique=True)
+    
+    def __str__(self):
+        return self.title
