@@ -10,7 +10,8 @@ class Ticket(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
-        related_name='tickets'
+        related_name='tickets',
+        null=True
         )
     category = models.ForeignKey(
         'Category',
@@ -32,7 +33,8 @@ class Comment(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
-        related_name='tickets'
+        related_name='comments',
+        null=True,
         )
     
     ticket = models.ForeignKey(
