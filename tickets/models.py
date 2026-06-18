@@ -18,8 +18,15 @@ class Ticket(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
-        related_name='tickets',
-        null=True
+        related_name='created_tickets',
+        null=True,
+        )
+    assigned_to = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name='assigned_tickets',
+        null=True,
+        blank=True,
         )
     category = models.ForeignKey(
         'Category',
