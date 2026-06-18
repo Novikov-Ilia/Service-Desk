@@ -38,6 +38,12 @@ class Ticket(models.Model):
     
     def __str__(self):
         return f"ticket #{self.id} - {self.title}"
+    
+    
+    class Meta:
+        verbose_name = 'заявка'
+        verbose_name_plural = 'заявки' 
+        ordering = ['-created_at']
 
 
 class Comment(models.Model):
@@ -61,6 +67,12 @@ class Comment(models.Model):
     def __str__(self):
         return f'comment #{self.id} to {self.ticket}'
     
+    
+    class Meta:
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'комментарии'
+        ordering = ['created_at']
+    
 
 class Category(models.Model):
     title = models.CharField(max_length=64, unique=True)
@@ -69,9 +81,15 @@ class Category(models.Model):
         return self.title
     
     
+    class Meta:
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
+        ordering = ['title']
+    
+    
 class StatusHistory(models.Model):
-    old_status=models.CharField(max_length=20, choices=Ticket.Status.choices)
-    new_status=models.CharField(max_length=20, choices=Ticket.Status.choices)
+    old_status = models.CharField(max_length=20, choices=Ticket.Status.choices)
+    new_status = models.CharField(max_length=20, choices=Ticket.Status.choices)
     comment = models.TextField(blank=True)
     changed_at = models.DateTimeField(auto_now_add=True)
     
@@ -80,7 +98,7 @@ class StatusHistory(models.Model):
         related_name="status_changes",
         on_delete=models.CASCADE,
     )
-    changed_by=models.ForeignKey(
+    changed_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name='status_changes',
         on_delete=models.SET_NULL,
@@ -90,3 +108,9 @@ class StatusHistory(models.Model):
     
     def __str__(self):
         return f'Ticket #{self.ticket_id}: {self.old_status} → {self.new_status}'
+    
+    
+    class Meta:
+        verbose_name = 'изменение статуса'
+        verbose_name_plural = 'изменения статуса'
+        ordering = ['-changed_at']
